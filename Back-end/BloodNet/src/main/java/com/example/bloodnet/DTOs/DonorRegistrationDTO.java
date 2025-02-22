@@ -1,37 +1,28 @@
-package com.example.bloodnet.models;
-
-import jakarta.persistence.*;
+package com.example.bloodnet.DTOs;
 
 import java.util.List;
 
-@Entity
-public class Donor {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(unique = true, nullable = false)
+public class DonorRegistrationDTO {
     private String username;
     private String fullName;
-
-    @Column(unique = true, nullable = false)
     private String email;
     private int age;
     private int weight;
     private String password;
     private String phone;
+    private List<AddressDTO> addresses;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Address> address;
+    public DonorRegistrationDTO() {}
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public DonorRegistrationDTO(String username, String fullName, String email, int age, int weight, String password, String phone, List<AddressDTO> addresses) {
+        this.username = username;
+        this.fullName = fullName;
+        this.email = email;
+        this.age = age;
+        this.weight = weight;
+        this.password = password;
+        this.phone = phone;
+        this.addresses = addresses;
     }
 
     public String getUsername() {
@@ -90,11 +81,24 @@ public class Donor {
         this.phone = phone;
     }
 
-    public List<Address> getAddress() {
-        return address;
+    public List<AddressDTO> getAddresses() {
+        return addresses;
     }
 
-    public void setAddress(List<Address> address) {
-        this.address = address;
+    public void setAddresses(List<AddressDTO> addresses) {
+        this.addresses = addresses;
+    }
+
+    @Override
+    public String toString() {
+        return "DonorRegistrationDTO{" +
+                "username='" + username + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", weight=" + weight +
+                ", phone='" + phone + '\'' +
+                ", addresses=" + addresses +
+                '}';
     }
 }
