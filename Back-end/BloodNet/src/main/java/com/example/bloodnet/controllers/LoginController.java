@@ -1,5 +1,8 @@
 package com.example.bloodnet.controllers;
 
+
+import com.example.bloodnet.DTOs.LoginDTO;
+import com.example.bloodnet.DTOs.LoginResponse;
 import com.example.bloodnet.DTOs.UserRegistrationDTO;
 import com.example.bloodnet.models.Role;
 import com.example.bloodnet.services.UserService;
@@ -11,21 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/registration")
-public class RegisterController {
+@RequestMapping("login")
+public class LoginController {
 
     @Autowired
     private UserService userService;
 
     @PostMapping("/donor")
-    public ResponseEntity<String> registerDonor(@RequestBody UserRegistrationDTO userRegistrationDTO) {
-        String response = userService.registerUser(userRegistrationDTO, Role.DONOR);
-        return ResponseEntity.ok(response);
+    public LoginResponse loginDonor(@RequestBody LoginDTO loginDTO) {
+        return userService.loginUser(loginDTO, Role.DONOR);
     }
 
     @PostMapping("/hospital")
-    public ResponseEntity<String> registerHospital(@RequestBody UserRegistrationDTO userRegistrationDTO) {
-        String response = userService.registerUser(userRegistrationDTO, Role.HOSPITAL);
-        return ResponseEntity.ok(response);
+    public LoginResponse loginHospital(@RequestBody LoginDTO loginDTO) {
+        return userService.loginUser(loginDTO, Role.HOSPITAL);
     }
+
 }
