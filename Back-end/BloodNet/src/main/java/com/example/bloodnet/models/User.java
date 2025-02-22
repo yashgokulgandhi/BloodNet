@@ -7,15 +7,18 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "users")
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-//@DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    @Column(name = "username",nullable = false, unique = true)
+    private String username;
+
     @Column(nullable = false, length = 100)
-    private String name;
+    private String fullName;
 
     @Column(nullable = false, unique = true, length = 100)
     private String email;
@@ -27,7 +30,7 @@ public class User {
     private String phone;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, updatable = false)
+    @Column(name = "role", insertable = false, updatable = false)
     private Role role;
 
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -40,8 +43,9 @@ public class User {
 //    private List<Notification> notifications;
 
 
-    public User(String name, String email, String password, String phone, Role role) {
-        this.name = name;
+    public User(String name, String email,String username, String password, String phone, Role role) {
+        this.fullName = name;
+        this.username = username;
         this.email = email;
         this.password = password;
         this.phone = phone;
@@ -60,11 +64,11 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return fullName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.fullName = name;
     }
 
     public String getEmail() {
@@ -97,5 +101,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
