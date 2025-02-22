@@ -10,9 +10,8 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    // Find a user by email
-//    User findByEmail(String email);
 
-    // Find a user by role
-//    List<User> findByRole(Role role);
+    User findByEmail(String email);
+
+    List<User> findByRole(Role role);
 }

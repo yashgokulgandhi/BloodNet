@@ -7,6 +7,8 @@ import com.example.bloodnet.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -25,5 +27,15 @@ public class UserService {
 //        user.setRole(role);
 
         return userRepository.save(user);
+    }
+
+    public List<User> getAllDonors()
+    {
+        return userRepository.findByRole(Role.DONOR);
+    }
+
+    public List<User> getAllHospitals()
+    {
+        return userRepository.findByRole(Role.HOSPITAL);
     }
 }
