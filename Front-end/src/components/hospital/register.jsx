@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./hospitalReg.css";
+import { Navigate } from "react-router-dom";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -9,8 +10,30 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
     phone: "",
-    address: "",
+    latitude: null,
+    longitude: null,
   });
+
+  // Get current location on component mount
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setFormData((prevData) => ({
+            ...prevData,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          }));
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          alert("Unable to fetch your location. Please enable location services.");
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,11 +48,14 @@ export default function RegisterPage() {
       email: formData.email,
       password: formData.password,
       phone: formData.phone,
-      address: formData.address,
+      addresses: {
+        latitude: formData.latitude,
+        longitude: formData.longitude,
+      },
     };
 
     try {
-      const response = await fetch("http://localhost:8080/registeration/hospital", {
+      const response = await fetch("http://localhost:8080/registration/hospital", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,6 +67,7 @@ export default function RegisterPage() {
         const data = await response.json();
         alert("Hospital registered successfully!");
         console.log("Response:", data);
+        window.location.href = "/hospital/login";
       } else {
         const errorData = await response.json();
         alert(`Error: ${errorData.message || "Failed to register hospital."}`);
@@ -54,7 +81,6 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-emerald-50 flex items-center justify-center py-12">
       <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
-        {/* Header */}
         <div className="text-center mb-6">
           <div className="text-emerald-600 text-2xl font-bold flex items-center justify-center gap-2">
             <span className="h-8 w-8">🏥</span>
@@ -66,9 +92,7 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Username */}
           <div className="space-y-2">
             <label htmlFor="username" className="block text-sm font-medium text-gray-700">
               Username
@@ -84,7 +108,6 @@ export default function RegisterPage() {
             />
           </div>
 
-          {/* Full Name */}
           <div className="space-y-2">
             <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
               Full Name
@@ -100,23 +123,6 @@ export default function RegisterPage() {
             />
           </div>
 
-          {/* Address */}
-          <div className="space-y-2">
-            <label htmlFor="address" className="block text-sm font-medium text-gray-700">
-              Address
-            </label>
-            <input
-              id="address"
-              type="text"
-              placeholder="123, Main Street, City Name"
-              value={formData.address}
-              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-              required
-              className="w-full border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            />
-          </div>
-
-          {/* Email */}
           <div className="space-y-2">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email
@@ -132,7 +138,6 @@ export default function RegisterPage() {
             />
           </div>
 
-          {/* Phone */}
           <div className="space-y-2">
             <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
               Phone Number
@@ -148,7 +153,6 @@ export default function RegisterPage() {
             />
           </div>
 
-          {/* Password */}
           <div className="space-y-2">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
@@ -163,7 +167,6 @@ export default function RegisterPage() {
             />
           </div>
 
-          {/* Confirm Password */}
           <div className="space-y-2">
             <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
               Confirm Password
@@ -178,7 +181,6 @@ export default function RegisterPage() {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg py-2 px-4"
@@ -186,16 +188,6 @@ export default function RegisterPage() {
             Create account
           </button>
         </form>
-
-        {/* Footer */}
-        <div className="mt-4 text-center">
-          <p className="text-sm text-gray-600">
-            Already have an account?{" "}
-            <a href="/hospital/login" className="text-emerald-600 hover:text-emerald-700 font-medium">
-              Login here
-            </a>
-          </p>
-        </div>
       </div>
     </div>
   );
