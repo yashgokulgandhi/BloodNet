@@ -4,8 +4,13 @@ import com.example.bloodnet.DTOs.DonorRegistrationDTO;
 import com.example.bloodnet.DTOs.HospitalRegistrationDTO;
 import com.example.bloodnet.DTOs.LoginDTO;
 import com.example.bloodnet.models.Donor;
+import com.example.bloodnet.models.DonorForm;
 import com.example.bloodnet.models.Hospital;
+<<<<<<< HEAD
 import com.example.bloodnet.repositories.DonorRepository;
+=======
+import com.example.bloodnet.services.DonorEligibilityService;
+>>>>>>> 92aca205f5af6ea66f0de326f5d1e8b6f65cb44e
 import com.example.bloodnet.services.DonorService;
 import com.example.bloodnet.services.HospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +30,9 @@ public class DonorController {
 
     @Autowired
     private HospitalService hospitalService;
+
+    @Autowired
+    private DonorEligibilityService donorEligibilityService;
 
     // Donor Registration
     @PostMapping("registration/donor")
@@ -82,10 +90,16 @@ public class DonorController {
         }
     }
 
+<<<<<<< HEAD
 
     @GetMapping("/donor/{username}")
     Donor getDonor(@PathVariable String username) {
 
         return donorRepository.findByUsername(username);
+=======
+    @PostMapping("donor/check-eligibility")
+    public String checkEligibility(@RequestBody DonorForm donorForm) {
+        return donorEligibilityService.checkEligibility(donorForm);
+>>>>>>> 92aca205f5af6ea66f0de326f5d1e8b6f65cb44e
     }
 }
