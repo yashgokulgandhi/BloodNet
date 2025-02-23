@@ -25,7 +25,9 @@ export default function LoginPage() {
       if (response.ok) {
         const data = await response.json();
         alert("Login successful!");
-        navigate("/welcome", { state: { name: data.username } });
+        navigate("/donor/home", { state: { name: data.username } });
+        localStorage.setItem("username",username)
+        localStorage.setItem("role","donor")
       } else {
         const errorData = await response.json();
         alert(`Login failed: ${errorData.message || "Invalid credentials"}`);
