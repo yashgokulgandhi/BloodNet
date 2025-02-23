@@ -1,11 +1,5 @@
 package com.example.bloodnet.DTOs;
 
-import com.example.bloodnet.models.BloodType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-
-import java.util.List;
-
 public class DonorRegistrationDTO {
     private String username;
     private String fullName;
@@ -18,12 +12,12 @@ public class DonorRegistrationDTO {
     private int weight;
     private String password;
     private String phone;
-    private List<AddressDTO> addresses;
+    private AddressDTO addresses;
 
     public DonorRegistrationDTO() {
     }
 
-    public DonorRegistrationDTO(String username, String fullName, String email, int age, String bloodType, int weight, String password, String phone, List<AddressDTO> addresses) {
+    public DonorRegistrationDTO(String username, String fullName, String email, int age, String bloodType, int weight, String password, String phone, AddressDTO addresses) {
         this.username = username;
         this.fullName = fullName;
         this.email = email;
@@ -99,11 +93,11 @@ public class DonorRegistrationDTO {
         this.phone = phone;
     }
 
-    public List<AddressDTO> getAddresses() {
+    public AddressDTO getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<AddressDTO> addresses) {
+    public void setAddresses(AddressDTO addresses) {
         this.addresses = addresses;
     }
 }

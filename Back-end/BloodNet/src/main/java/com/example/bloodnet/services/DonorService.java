@@ -4,6 +4,7 @@ import com.example.bloodnet.DTOs.DonorRegistrationDTO;
 import com.example.bloodnet.DTOs.LoginDTO;
 import com.example.bloodnet.models.Address;
 import com.example.bloodnet.models.Donor;
+import com.example.bloodnet.repositories.AddressRepository;
 import com.example.bloodnet.repositories.DonorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,8 @@ public class DonorService {
 
     @Autowired
     private DonorRepository donorRepository;
+    @Autowired
+    private AddressRepository addressRepository;
 
     public Donor registerDonor(DonorRegistrationDTO dto) {
         if (donorRepository.existsByUsername(dto.getUsername())) {
@@ -38,19 +41,14 @@ public class DonorService {
         donor.setPassword(dto.getPassword());
         donor.setPhone(dto.getPhone());
 
-        // Map AddressDTOs to Address entities
-        List<Address> addresses = dto.getAddresses().stream()
-                .map(addressDTO -> {
-                    Address address = new Address();
-                    address.setLatitude(addressDTO.getLatitude());
-                    address.setLongitude(addressDTO.getLongitude());
-                    address.setUser(donor); // Link address to donor
-                    return address;
-                })
-                .collect(Collectors.toList());
+        Address address = new Address();
+        addressRepository.save(address);
+        donor.setAddress(address);
+        address.setLatitude(dto.getAddresses().getLatitude());
+        address.setLongitude(dto.getAddresses().getLongitude());
 
-        donor.setAddress(addresses);
-
+        donor.setAddress(address);
+        address.setUser(donor);
         // Save donor and automatically persist addresses
         return donorRepository.save(donor);
     }
