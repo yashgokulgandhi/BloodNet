@@ -15,6 +15,9 @@ public class Donor {
     private String username;
     private String fullName;
 
+    @Column(nullable = false)
+    private String bloodType; // Changed from BloodType to bloodType
+
     @Column(unique = true, nullable = false)
     private String email;
     private int age;
@@ -25,7 +28,22 @@ public class Donor {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Address> address;
 
-    // Getters and Setters
+    public Donor() {
+    }
+
+    public Donor(Long id, String username, String fullName, String bloodType, String email, int age, int weight, String password, String phone, List<Address> address) {
+        this.id = id;
+        this.username = username;
+        this.fullName = fullName;
+        this.bloodType = bloodType; // Updated here
+        this.email = email;
+        this.age = age;
+        this.weight = weight;
+        this.password = password;
+        this.phone = phone;
+        this.address = address;
+    }
+
     public Long getId() {
         return id;
     }
@@ -48,6 +66,14 @@ public class Donor {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getBloodType() {
+        return bloodType; // Updated here
+    }
+
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType; // Updated here
     }
 
     public String getEmail() {

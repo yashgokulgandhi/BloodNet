@@ -33,6 +33,7 @@ public class DonorService {
         donor.setFullName(dto.getFullName());
         donor.setEmail(dto.getEmail());
         donor.setAge(dto.getAge());
+        donor.setBloodType(dto.getBloodType());
         donor.setWeight(dto.getWeight());
         donor.setPassword(dto.getPassword());
         donor.setPhone(dto.getPhone());
