@@ -15,9 +15,12 @@ public interface DonorRepository extends JpaRepository<Donor, Long> {
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
 
+    Donor findById(long id);
+
     Donor findByUsernameAndPassword(String username, String password);
     Donor findByUsername(String username);
     Donor findByEmail(String email);
     Donor findByUsernameAndEmail(String username, String email);
 
+//    Donor findById(Donor d);
 }

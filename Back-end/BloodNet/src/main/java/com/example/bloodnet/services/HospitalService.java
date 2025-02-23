@@ -2,10 +2,7 @@ package com.example.bloodnet.services;
 
 import com.example.bloodnet.DTOs.HospitalRegistrationDTO;
 import com.example.bloodnet.DTOs.LoginDTO;
-import com.example.bloodnet.models.Address;
-import com.example.bloodnet.models.Donor;
-import com.example.bloodnet.models.Hospital;
-import com.example.bloodnet.models.Request;
+import com.example.bloodnet.models.*;
 import com.example.bloodnet.repositories.DonorRepository;
 import com.example.bloodnet.repositories.HospitalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +26,9 @@ public class HospitalService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     public Hospital registerHospital(HospitalRegistrationDTO dto) {
         if (hospitalRepository.existsByUsername(dto.getUsername())) {
@@ -82,7 +82,8 @@ public class HospitalService {
 
         for (Donor donor : donors) {
             emailService.sendEmail(hospitalId, donor.getEmail(), subject, text);
-            System.out.println(donor);
+            Notification notification = notificationService.createNotification(request);
+            System.out.println(notification);
         }
     }
 
