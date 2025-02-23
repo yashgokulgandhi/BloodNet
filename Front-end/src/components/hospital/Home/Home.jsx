@@ -1,5 +1,5 @@
 // import React from "react";
-import NavbarofHospital from '../NavBarHospital';
+// import NavbarofHospital from '../NavBarHospital';
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
           <h1 className="text-emerald-600 text-2xl font-bold">Healthcare</h1>
         </div>
       </nav> */}
-      <NavbarofHospital/>
+      {/* <NavbarofHospital/> */}
 
       {/* Main Section */}
       <section className="container mx-auto px-4 py-12">
@@ -26,7 +26,7 @@ export default function Home() {
             </div>
             <div className="bg-emerald-500 rounded-full p-8">
               <img
-                src="/placeholder.svg"
+                src="../public/hospital_blood.jpg"
                 alt="Hospital staff"
                 width={500}
                 height={500}

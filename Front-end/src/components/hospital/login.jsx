@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./hospitalLogin.css"; // Import the CSS file
 
-export default function LoginPage() {
+export default function HospitalLoginPage() {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -36,9 +37,9 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-emerald-50 flex items-center justify-center">
-      <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
-        <div className="mb-4 text-center">
-          <div className="flex justify-center mb-4 text-emerald-600 text-2xl font-bold items-center gap-2">
+      <div className="card shadow-lg p-6 w-full max-w-md">
+        <div className="text-center mb-4">
+          <div className="text-emerald font-bold text-2xl flex items-center justify-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-8 w-8"
@@ -55,14 +56,12 @@ export default function LoginPage() {
             </svg>
             HOSPITAL
           </div>
-          <h2 className="text-2xl text-emerald-600 font-semibold">Welcome back</h2>
-          <p className="text-gray-600">
-            Enter your username and password to access your account
-          </p>
+          <h2 className="text-2xl text-emerald font-semibold">Welcome back</h2>
+          <p className="text-muted">Enter your username and password to login</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+          <div>
+            <label htmlFor="username" className="form-label">
               Username
             </label>
             <input
@@ -72,36 +71,31 @@ export default function LoginPage() {
               value={formData.username}
               onChange={(e) => setFormData({ ...formData, username: e.target.value })}
               required
-              className="w-full border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="form-control"
             />
           </div>
-          <div className="space-y-2">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          <div>
+            <label htmlFor="password" className="form-label">
               Password
             </label>
             <input
               id="password"
               type="password"
+              placeholder="password"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               required
-              className="w-full border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="form-control"
             />
           </div>
-          <button
-            type="submit"
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg py-2 px-4"
-          >
+          <button type="submit" className="btn btn-emerald w-full">
             Sign in
           </button>
         </form>
-        <div className="mt-4 text-center">
-          <p className="text-sm text-gray-600">
+        <div className="text-center mt-4">
+          <p className="text-muted">
             Don&apos;t have an account?{" "}
-            <a
-              href="/hospital/register"
-              className="text-emerald-600 hover:text-emerald-700 font-medium"
-            >
+            <a href="/hospital/register" className="text-emerald">
               Register here
             </a>
           </p>
