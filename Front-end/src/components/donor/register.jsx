@@ -107,13 +107,13 @@ export default function RegisterPage() {
             Register as a Blood Donor
           </h2>
           <p className="text-gray-600 text-sm sm:text-base">
-            Provide your details to help save lives.
+            Provide your Details to Help save Lives !
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
-            {["username", "fullName", "email", "phone", "age", "weight"].map((field) => (
+            {["username", "Name", "Email", "Phone Number", "Age", "Weight"].map((field) => (
               <div key={field}>
                 <label htmlFor={field} className="block font-medium text-gray-700">
                   {field.charAt(0).toUpperCase() + field.slice(1)}
@@ -122,7 +122,7 @@ export default function RegisterPage() {
                   id={field}
                   type={field === "age" || field === "weight" ? "number" : "text"}
                   className="form-control"
-                  placeholder={`Enter ${field}`}
+                  placeholder={`Enter your ${field}`}
                   value={formData[field]}
                   onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
                   required

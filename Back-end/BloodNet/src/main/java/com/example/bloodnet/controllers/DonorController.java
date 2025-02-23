@@ -5,6 +5,7 @@ import com.example.bloodnet.DTOs.HospitalRegistrationDTO;
 import com.example.bloodnet.DTOs.LoginDTO;
 import com.example.bloodnet.models.Donor;
 import com.example.bloodnet.models.Hospital;
+import com.example.bloodnet.repositories.DonorRepository;
 import com.example.bloodnet.services.DonorService;
 import com.example.bloodnet.services.HospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class DonorController {
 
     @Autowired
     private DonorService donorService;
+
+    @Autowired
+    DonorRepository donorRepository;
 
     @Autowired
     private HospitalService hospitalService;
@@ -76,5 +80,12 @@ public class DonorController {
             e.printStackTrace();
             return new ResponseEntity<>("An error occurred during hospital login.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+
+    @GetMapping("/donor/{username}")
+    Donor getDonor(@PathVariable String username) {
+
+        return donorRepository.findByUsername(username);
     }
 }

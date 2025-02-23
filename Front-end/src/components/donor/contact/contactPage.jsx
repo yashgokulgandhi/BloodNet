@@ -8,18 +8,18 @@ const contactData = {
   contactDetails: [
     {
       title: "Phone",
-      info: "+1 (555) 123-4567",
-      icon: <FaPhoneAlt className="h-6 w-6 text-rose-600" />,
+      info: "+91 8160971021",
+      icon: <FaPhoneAlt className="h-6 w-6 text-emerald-600" />,
     },
     {
       title: "Email",
-      info: "contact@healthorg.com",
-      icon: <FaEnvelope className="h-6 w-6 text-rose-600" />,
+      info: "support@hospitalnetwork.com",
+      icon: <FaEnvelope className="h-6 w-6 text-emerald-600" />,
     },
     {
       title: "Address",
-      info: "123 Health Street, Medical District, City",
-      icon: <FaMapMarkerAlt className="h-6 w-6 text-rose-600" />,
+      info: "Vadodara",
+      icon: <FaMapMarkerAlt className="h-6 w-6 text-emerald-600" />,
     },
   ],
 };

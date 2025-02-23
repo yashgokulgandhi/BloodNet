@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaUserEdit, FaCheckCircle, FaTimesCircle, FaBell } from "react-icons/fa";
 import { Switch } from "@headlessui/react";
+import axios from "axios";
 
 const DonorDashboard = () => {
   const [data, setData] = useState(null);
@@ -9,30 +10,53 @@ const DonorDashboard = () => {
   const [currentAlertIndex, setCurrentAlertIndex] = useState(0);
 
   useEffect(() => {
-    const donorData = {
-      donor: {
-        name: "John Doe",
-        bloodType: "O+",
-        location: "New York, USA",
-        available: true
-      },
-      notifications: [
-        "Urgent: Need O+ blood at City Hospital",
-        "New donation request near your location",
-        "Your last donation was successful!"
-      ],
-      donationHistory: [
-        { date: "2025-02-10", location: "City Hospital", status: "Completed" },
-        { date: "2025-01-15", location: "Red Cross Center", status: "Completed" },
-        { date: "2024-12-20", location: "Community Clinic", status: "Pending" }
-      ]
-    };
+    let username = localStorage.getItem("username");
+    console.log(username);
 
-    setTimeout(() => {
-      setData(donorData);
-      setLoading(false);
-    }, 1000);
-  }, []);
+    axios.get(`http://localhost:8080/donor/${username}`)
+        .then(async (res) => {
+            const latitude = 22.3051776; // Define latitude
+            const longitude = 73.1938816; // Define longitude
+            
+            const donorData = {
+                donor: {
+                    name: res.data.fullName,
+                    bloodType: res.data.bloodType,
+                    location: "Fetching location...", // Placeholder
+                    available: true
+                },
+                notifications: [
+                    "Urgent: Need O+ blood at Hospital1",
+                    "New donation request near your location",
+                    "Your last donation was successful!"
+                ],
+                donationHistory: [
+                    { date: "2025-02-10", location: "City Hospital", status: "Completed" },
+                    { date: "2025-01-15", location: "Red Cross Center", status: "Completed" },
+                    { date: "2024-12-20", location: "Community Clinic", status: "Pending" }
+                ]
+            };
+
+            try {
+                const locationResponse = await axios.get(
+                    `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+                );
+                donorData.donor.location = locationResponse.data.display_name;
+            } catch (err) {
+                console.error("Error fetching location:", err);
+                donorData.donor.location = "Location not found";
+            }
+
+            setData(donorData);
+            setLoading(false);
+        })
+        .catch((err) => {
+            console.error("Error fetching donor data:", err);
+            setLoading(false);
+        });
+}, []);
+
+
 
   useEffect(() => {
     if (data && data.notifications.length > 0) {
@@ -53,9 +77,9 @@ const DonorDashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#ffe4e6] p-12 text-gray-900 flex flex-col gap-10 relative">
-      {/* Donor Profile Section */}
+
       <motion.div
-        className="w-full max-w-6xl mx-auto bg-[#f87171] bg-opacity-80 backdrop-blur-md p-10 rounded-xl shadow-lg flex flex-col md:flex-row items-center justify-between text-xl text-white relative"
+        className="w-full max-w-6xl mx-auto bg-[#f20a1d] bg-opacity-80 backdrop-blur-md p-10 rounded-xl shadow-lg flex flex-col md:flex-row items-center justify-between text-xl text-white relative"
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -75,16 +99,8 @@ const DonorDashboard = () => {
             <p className="text-lg opacity-80">📍 {data.donor.location}</p>
           </div>
         </div>
-
-        <motion.button
-          className="flex items-center gap-3 bg-blue-500 px-6 py-3 text-lg rounded-lg shadow-md hover:bg-blue-600"
-          whileHover={{ scale: 1.05 }}
-        >
-          <FaUserEdit /> Edit Profile
-        </motion.button>
       </motion.div>
 
-      {/* Notification Section */}
       <div className="fixed top-20 right-10 w-96 z-50">
         <AnimatePresence mode="wait">
           <motion.div
@@ -103,64 +119,35 @@ const DonorDashboard = () => {
         </AnimatePresence>
       </div>
 
-      {/* Availability Switch */}
       <motion.div
-        className="w-full max-w-6xl mx-auto bg-[#f87171] bg-opacity-80 backdrop-blur-md p-6 rounded-xl flex items-center justify-between text-lg shadow-lg text-white"
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-      >
-        <span>Available for Donation:</span>
-        <Switch
-          checked={data.donor.available}
-          onChange={() =>
-            setData((prev) => ({
-              ...prev,
-              donor: { ...prev.donor, available: !prev.donor.available }
-            }))
-          }
-          className={`${
-            data.donor.available ? "bg-green-500" : "bg-gray-500"
-          } relative inline-flex h-10 w-20 items-center rounded-full`}
-        >
-          <motion.span
-            className="inline-block w-8 h-8 bg-white rounded-full"
-            animate={{ x: data.donor.available ? 40 : 2 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          />
-        </Switch>
-      </motion.div>
-
-      {/* Donation History Section */}
-      <motion.div
-        className="w-full max-w-6xl mx-auto bg-[#f87171] bg-opacity-80 backdrop-blur-md p-10 rounded-xl shadow-lg text-lg text-white"
+        className="w-full max-w-6xl mx-auto bg-[#f20a1d] bg-opacity-80 backdrop-blur-md p-10 rounded-xl shadow-lg text-lg text-white"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4 }}
       >
         <h2 className="text-2xl font-semibold mb-6">Donation History</h2>
-        <table className="w-full text-center border-collapse bg-white bg-opacity-10 rounded-lg text-gray-900">
+        <table className="w-full text-center border-collapse bg-white bg-opacity-10 rounded-lg text-black">
           <thead>
-            <tr className="bg-gray-800 text-white text-lg">
+            <tr className="bg-gray-800 text-white text-2xl">
               <th className="p-4">Date</th>
               <th className="p-4">Location</th>
               <th className="p-4">Status</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-white">
             {data.donationHistory.map((donation, index) => (
               <motion.tr
                 key={index}
-                className="border-b border-white border-opacity-30 text-lg"
+                className="border-b border-white border-opacity-30 text-xl"
                 whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.2)" }}
               >
-                <td className="p-4 text-gray-900">{donation.date}</td>
-                <td className="p-4 text-gray-900">{donation.location}</td>
+                <td className="p-4 text-black">{donation.date}</td>
+                <td className="p-4 text-black">{donation.location}</td>
                 <td className="p-4 flex items-center justify-center gap-3 text-gray-900">
                   {donation.status === "Completed" ? (
-                    <FaCheckCircle className="text-green-400 text-xl" />
+                    <FaCheckCircle className="text-green-400 text-2xl" />
                   ) : (
-                    <FaTimesCircle className="text-yellow-400 text-xl" />
+                    <FaTimesCircle className="text-yellow-400 text-2xl" />
                   )}
                   {donation.status}
                 </td>

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaBell, FaHospital, FaTint, FaCheck, FaTimes, FaHeart } from "react-icons/fa";
 
 const mockNotifications = [
-  { id: 1, bloodType: "A+", hospitalName: "City General Hospital", distance: "2.5 km" },
+  { id: 1, bloodType: "O+", hospitalName: "Hospital1", distance: "2.5 km" },
   { id: 2, bloodType: "O-", hospitalName: "St. Mary's Medical Center", distance: "4.2 km" },
   { id: 3, bloodType: "B+", hospitalName: "Sunshine Children's Hospital", distance: "1.8 km" },
 ];

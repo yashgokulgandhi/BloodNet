@@ -45,7 +45,7 @@ export default function Home() {
               professionals. Your well-being is at the heart of everything we do.
             </p>
             <button className="bg-emerald-600 hover:bg-emerald-700 text-white text-lg rounded-lg py-2 px-8 transition-colors">
-              Book Appointment
+              Request for Blood
             </button>
           </div>
         </div>

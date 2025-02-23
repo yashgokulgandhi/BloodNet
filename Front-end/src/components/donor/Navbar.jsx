@@ -6,7 +6,10 @@ export default function NavBar() {
   const navigate = useNavigate(); // Hook for navigation
 
   const handleLogin = () => {
-    navigate("/donor/login"); // Navigate to login page on button click
+    localStorage.removeItem("username")
+    localStorage.removeItem("role")
+
+    navigate("/"); // Navigate to login page on button click
   };
 
   return (
@@ -27,14 +30,15 @@ export default function NavBar() {
         <a href="/donor/service" className="nav-link service">
           Dashboard
         </a>
-        <a href="/donor/contact" className="nav-link contact">
-          Contact
-        </a>
+       
         <a href="/donor/check" className="nav-link contact">
-          Check
+          Check Eligibility
         </a>
         <a href="/donor/notification" className="nav-link product">
           Notifications
+        </a>
+        <a href="/donor/contact" className="nav-link contact">
+          Contact
         </a>
       </div>
 
@@ -56,7 +60,7 @@ export default function NavBar() {
           onClick={handleLogin}
           className="bg-rose-500 hover:bg-rose-600 text-white px-5 py-2 rounded-full shadow-md hover:shadow-lg transition-all duration-300"
         >
-          Login
+          Logout
         </button>
       </div>
     </nav>
