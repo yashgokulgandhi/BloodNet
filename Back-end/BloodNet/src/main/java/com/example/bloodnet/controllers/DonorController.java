@@ -4,7 +4,9 @@ import com.example.bloodnet.DTOs.DonorRegistrationDTO;
 import com.example.bloodnet.DTOs.HospitalRegistrationDTO;
 import com.example.bloodnet.DTOs.LoginDTO;
 import com.example.bloodnet.models.Donor;
+import com.example.bloodnet.models.DonorForm;
 import com.example.bloodnet.models.Hospital;
+import com.example.bloodnet.services.DonorEligibilityService;
 import com.example.bloodnet.services.DonorService;
 import com.example.bloodnet.services.HospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class DonorController {
 
     @Autowired
     private HospitalService hospitalService;
+
+    @Autowired
+    private DonorEligibilityService donorEligibilityService;
 
     // Donor Registration
     @PostMapping("registration/donor")
@@ -76,5 +81,10 @@ public class DonorController {
             e.printStackTrace();
             return new ResponseEntity<>("An error occurred during hospital login.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("donor/check-eligibility")
+    public String checkEligibility(@RequestBody DonorForm donorForm) {
+        return donorEligibilityService.checkEligibility(donorForm);
     }
 }
