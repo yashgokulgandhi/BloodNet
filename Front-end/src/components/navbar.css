@@ -1,0 +1,86 @@
+/* Navigation Bar Background */
+.navbar-bg {
+    background-color: #1f2937; /* Gray-800 for dark background */
+  }
+  
+  /* Themed link colors with better contrast */
+  .nav-link {
+    position: relative;
+    text-decoration: none;
+    font-weight: 600;
+    padding-bottom: 5px;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    left: 0;
+    bottom: 0;
+    background-color: currentColor;
+    transition: width 0.4s ease-in-out;
+  }
+  
+  .nav-link:hover::after {
+    width: 100%;
+  }
+  
+  .nav-link.home {
+    color: #f87171; /* Red-400 */
+  }
+  
+  .nav-link.home:hover {
+    color: #ef4444; /* Red-500 */
+  }
+  
+  .nav-link.service {
+    color: #fb7185; /* Rose-400 */
+  }
+  
+  .nav-link.service:hover {
+    color: #f43f5e; /* Rose-500 */
+  }
+  
+  .nav-link.product {
+    color: #fbbf24; /* Amber-400 */
+  }
+  
+  .nav-link.product:hover {
+    color: #f59e0b; /* Amber-500 */
+  }
+  
+  .nav-link.contact {
+    color: #34d399; /* Emerald-400 */
+  }
+  
+  .nav-link.contact:hover {
+    color: #10b981; /* Emerald-500 */
+  }
+  
+  /* Search input with darker tone */
+  .search-input {
+    background-color: #374151; /* Gray-700 */
+    border: 1px solid #4b5563; /* Gray-600 */
+    color: #f9fafb; /* Light text */
+  }
+  
+  .search-input::placeholder {
+    color: #9ca3af; /* Gray-400 */
+  }
+  
+  .search-input:focus {
+    border-color: #f43f5e; /* Rose-500 focus */
+  }
+  
+  /* Search button */
+  .search-button {
+    background-color: #ef4444; /* Red-500 */
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-button:hover {
+    background-color: #dc2626; /* Red-600 */
+  }
+  
