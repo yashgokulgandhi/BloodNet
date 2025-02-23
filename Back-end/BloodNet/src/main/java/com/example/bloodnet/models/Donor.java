@@ -28,6 +28,9 @@ public class Donor {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Address> address;
 
+    @OneToMany(mappedBy = "Donor")
+    private List<DonorLog> donorLogs;
+
     public Donor() {
     }
 
