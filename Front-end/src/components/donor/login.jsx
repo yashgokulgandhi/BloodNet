@@ -24,10 +24,13 @@ export default function LoginPage() {
 
       if (response.ok) {
         const data = await response.json();
+
+        localStorage.setItem("username",formData.username)
+        localStorage.setItem("role","donor")
         alert("Login successful!");
         navigate("/donor/home", { state: { name: data.username } });
-        localStorage.setItem("username",username)
-        localStorage.setItem("role","donor")
+
+        
       } else {
         const errorData = await response.json();
         alert(`Login failed: ${errorData.message || "Invalid credentials"}`);
@@ -47,7 +50,7 @@ export default function LoginPage() {
             HEALTH
           </div>
           <h3 className="text-rose-600 fw-semibold">Welcome back</h3>
-          <p className="text-muted">Enter your username and password to login</p>
+          
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -57,7 +60,7 @@ export default function LoginPage() {
               id="username"
               type="text"
               className="form-control bg-light"
-              placeholder="donor"
+              placeholder="Enter your username"
               value={formData.username}
               onChange={(e) => setFormData({ ...formData, username: e.target.value })}
               required
@@ -70,7 +73,7 @@ export default function LoginPage() {
               id="password"
               type="password"
               className="form-control bg-light"
-              placeholder="donorpass"
+              placeholder="Enter your password"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               required

@@ -6,7 +6,7 @@ const contactData = {
   contactDetails: [
     {
       title: "Phone",
-      info: "+1 (555) 987-6543",
+      info: "+91 8160971021",
       icon: <FaPhoneAlt className="h-6 w-6 text-emerald-600" />,
     },
     {
@@ -16,7 +16,7 @@ const contactData = {
     },
     {
       title: "Address",
-      info: "456 Medical Avenue, City Center, State",
+      info: "Vadodara",
       icon: <FaMapMarkerAlt className="h-6 w-6 text-emerald-600" />,
     },
   ],

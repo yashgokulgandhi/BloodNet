@@ -3,17 +3,21 @@ import { motion } from "framer-motion";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import axios from "axios";
 
 // Mock data for donors
 const donorsData = [
-  { id: 1, name: "John Doe", bloodType: "A+", distance: "2.5 km", lat: 51.505, lng: -0.09 },
-  { id: 2, name: "Jane Smith", bloodType: "O-", distance: "3.7 km", lat: 51.51, lng: -0.1 },
-  { id: 3, name: "Mike Johnson", bloodType: "B+", distance: "1.8 km", lat: 51.515, lng: -0.08 },
+  { id: 1, name: "Yash Gokulgandhi", bloodType: "O+", distance: "2.5 km", lat: 22.6885, lng: 72.8616 }, // Near Nadiad
+  { id: 2, name: "Ansh Hathi", bloodType: "O+", distance: "3.7 km", lat: 22.6953, lng: 72.8704 }, // Near Nadiad
+  { id: 3, name: "Ishan Joshi", bloodType: "O+", distance: "1.8 km", lat: 22.7031, lng: 72.8562 }, // Near Nadiad
 ];
+
+
+
 
 // Custom icon for map markers
 const customIcon = new L.Icon({
-  iconUrl: "/placeholder.svg?height=25&width=25",
+  iconUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeslgCLLrolw0WeoH-Z5EKFKGjw-3QAS_gPg&sheight=25&width=25",
   iconSize: [25, 25],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -22,10 +26,12 @@ const customIcon = new L.Icon({
 export default function BloodRequestPage() {
   const [formData, setFormData] = useState({
     bloodType: "",
-    amount: "",
-    urgency: "",
-    notes: "",
+    requiredBloodAmount: "",
+    urgencyLevel: "",
+    additionalNote: "",
+    username:""
   });
+  
   const [showMap, setShowMap] = useState(false);
 
   const handleChange = (e) => {
@@ -38,6 +44,23 @@ export default function BloodRequestPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formData)
+    formData.username=localStorage.getItem("username")
+
+
+    axios.post('http://localhost:8080/hospital/request', formData, {
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+  .then(response => {
+      donorsData
+      console.log('Response:', response.data);
+  })
+  .catch(error => {
+      console.error('Error:', error.response ? error.response.data : error.message);
+  });
+
     setShowMap(true);
   };
 
@@ -71,16 +94,16 @@ export default function BloodRequestPage() {
             </select>
             <input
               type="number"
-              name="amount"
-              value={formData.amount}
+              name="requiredBloodAmount"
+              value={formData.requiredBloodAmount}
               onChange={handleChange}
               placeholder="Required Amount (ml)"
               className="w-full px-4 py-3 bg-white bg-opacity-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 text-gray-700"
               required
             />
             <select
-              name="urgency"
-              value={formData.urgency}
+              name="urgencyLevel"
+              value={formData.urgencyLevel}
               onChange={handleChange}
               className="w-full px-4 py-3 bg-white bg-opacity-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 text-gray-700"
               required
@@ -91,8 +114,8 @@ export default function BloodRequestPage() {
               <option value="within24hours">Within 24 hours</option>
             </select>
             <textarea
-              name="notes"
-              value={formData.notes}
+              name="additionalNote"
+              value={formData.additionalNote}
               onChange={handleChange}
               placeholder="Additional Notes"
               className="w-full px-4 py-3 bg-white bg-opacity-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 text-gray-700 col-span-2 h-32"
@@ -132,7 +155,7 @@ export default function BloodRequestPage() {
             </div>
             <div className="w-2/3 h-96 rounded-lg overflow-hidden shadow-lg">
               <MapContainer
-                center={[51.505, -0.09]}
+                center={[22.6885, 72.8612]}
                 zoom={13}
                 style={{ height: "100%", width: "100%" }}
               >

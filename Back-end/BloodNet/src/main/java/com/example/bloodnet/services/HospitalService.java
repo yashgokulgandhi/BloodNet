@@ -63,16 +63,18 @@ public class HospitalService {
         return new ResponseEntity<>(hospital, HttpStatus.OK);
     }
 
-    public void sendRequeststoDonors(Request request) {
+    public List<Donor> sendRequeststoDonors(Request request) {
 
          double lat= request.getHospital().getAddress().getLatitude();
          double lng= request.getHospital().getAddress().getLongitude();
 
         List<Donor> allDonors = donorRepository.findAll();
-        double radiusKm = 50.0; // 50 km radius
+        double radiusKm = 550.0; // 50 km radius
         List<Donor> donors= allDonors.stream()
                 .filter(donor -> calculateDistance(lat, lng, donor.getAddress().getLatitude(), donor.getAddress().getLongitude()) <= radiusKm)
                 .collect(Collectors.toList());
+
+        System.out.println(donors);
 
         Long hospitalId = request.getHospital().getId();
 
@@ -85,6 +87,9 @@ public class HospitalService {
             Notification notification = notificationService.createNotification(request);
             System.out.println(notification);
         }
+
+
+        return donors;
     }
 
     private double calculateDistance(double lat1, double lng1, double lat2, double lng2) {

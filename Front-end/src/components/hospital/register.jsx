@@ -88,7 +88,7 @@ export default function RegisterPage() {
           </div>
           <h2 className="text-2xl text-emerald-600 font-semibold">Create an account</h2>
           <p className="text-gray-600">
-            Enter your information to create your hospital account
+            Enter your information to create your Hospital account!
           </p>
         </div>
 
@@ -100,7 +100,7 @@ export default function RegisterPage() {
             <input
               id="username"
               type="text"
-              placeholder="hospital1"
+              placeholder="Enter your username"
               value={formData.username}
               onChange={(e) => setFormData({ ...formData, username: e.target.value })}
               required
@@ -115,7 +115,7 @@ export default function RegisterPage() {
             <input
               id="fullName"
               type="text"
-              placeholder="City Hospital"
+              placeholder="Enter full name of Hospital"
               value={formData.fullName}
               onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
               required
@@ -130,7 +130,7 @@ export default function RegisterPage() {
             <input
               id="email"
               type="email"
-              placeholder="city.hospital@example.com"
+              placeholder="Eg:hospital@gmail.com"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
@@ -145,7 +145,7 @@ export default function RegisterPage() {
             <input
               id="phone"
               type="tel"
-              placeholder="1234567890"
+              placeholder="Enter your phone number"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               required

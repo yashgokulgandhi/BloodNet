@@ -16,7 +16,7 @@ export default function Home() {
             </div>
             <div className="bg-red-500 rounded-full p-8">
               <img
-                src="./public/blood-donation-concept-illustration-vector.jpg"
+                src="../public/blood-donation-concept-illustration-vector.jpg"
                 alt="Blood donation awareness"
                 width={500}
                 height={500}

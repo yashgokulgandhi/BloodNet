@@ -24,7 +24,7 @@
         if (response.ok) {
           const data = await response.json();
           alert("Login successful!");
-          localStorage.setItem("username",username)
+          localStorage.setItem("username",formData.username)
           localStorage.setItem("role","hospital")
           navigate("/hospital/home", { state: { name: data.username } });
         } else {
@@ -59,7 +59,7 @@
               HOSPITAL
             </div>
             <h2 className="text-2xl text-emerald font-semibold">Welcome back</h2>
-            <p className="text-muted">Enter your username and password to login</p>
+           
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -69,7 +69,7 @@
               <input
                 id="username"
                 type="text"
-                placeholder="hospital1"
+                placeholder="Enter your username"
                 value={formData.username}
                 onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                 required
@@ -83,7 +83,7 @@
               <input
                 id="password"
                 type="password"
-                placeholder="password"
+                placeholder="Enter your password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 required
