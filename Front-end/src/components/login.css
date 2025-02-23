@@ -1,0 +1,52 @@
+/* LoginPage.css */
+body {
+    background-color: #fff1f2; /* Light rose background */
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .card {
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
+  }
+  
+  .text-danger {
+    color: #e11d48 !important; /* Rose-600 tone */
+  }
+  
+  .btn-danger {
+    background-color: #e11d48;
+    border-color: #e11d48;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-danger:hover {
+    background-color: #be123c;
+    border-color: #be123c;
+  }
+  
+  .form-label {
+    color: #e11d48;
+    font-weight: 500;
+  }
+  
+  .form-control:focus {
+    border-color: #f43f5e;
+    box-shadow: 0 0 0 0.2rem rgba(244, 63, 94, 0.25);
+  }
+  
+  a.text-danger:hover {
+    color: #be123c !important;
+    text-decoration: underline;
+  }
+  
+  .text-muted {
+    color: #6b7280 !important; /* Neutral gray for descriptions */
+  }
+  
+  @media (max-width: 768px) {
+    .card {
+      margin: 1rem;
+    }
+  }
+  
