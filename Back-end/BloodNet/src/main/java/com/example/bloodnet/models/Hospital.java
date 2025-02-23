@@ -25,13 +25,13 @@ public class Hospital {
     private String password;
     private String phone;
 
-    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL) // Corrected mapping
-    private List<Address> address;
+    @OneToOne(mappedBy = "hospital", cascade = CascadeType.ALL) // Corrected mapping
+    private Address address;
 
     public Hospital() {
     }
 
-    public Hospital(Long id, String username, String fullName, String email, String password, String phone, List<Address> address) {
+    public Hospital(Long id, String username, String fullName, String email, String password, String phone, Address address) {
         this.id = id;
         this.username = username;
         this.fullName = fullName;
@@ -41,31 +41,59 @@ public class Hospital {
         this.address = address;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public void setAddress(List<Address> address) {
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
         this.address = address;
     }
 }

@@ -13,6 +13,8 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
     boolean existsByEmail(String email);
     Hospital findByUsernameAndPassword(String username, String password);
 
+    Hospital findByUsername(String username);
+
 
 
 }
