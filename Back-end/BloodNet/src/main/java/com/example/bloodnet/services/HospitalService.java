@@ -27,6 +27,9 @@ public class HospitalService {
     @Autowired
     DonorRepository donorRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     public Hospital registerHospital(HospitalRegistrationDTO dto) {
         if (hospitalRepository.existsByUsername(dto.getUsername())) {
             throw new IllegalArgumentException("Username '" + dto.getUsername() + "' is already taken.");
@@ -71,9 +74,16 @@ public class HospitalService {
                 .filter(donor -> calculateDistance(lat, lng, donor.getAddress().getLatitude(), donor.getAddress().getLongitude()) <= radiusKm)
                 .collect(Collectors.toList());
 
-        System.out.println(allDonors);
+        Long hospitalId = request.getHospital().getId();
 
+        String subject = "Urgent Blood Request";
+        String text = "Urgent Blood Request! Blood Type:"+request.getBloodType()+" | Required Amount: "+request.getRequiredBloodAmount()+
+                " Units | Urgency Level:"+request.getUrgencyLevel()+". If you can donate, please contact immediately!";
 
+        for (Donor donor : donors) {
+            emailService.sendEmail(hospitalId, donor.getEmail(), subject, text);
+            System.out.println(donor);
+        }
     }
 
     private double calculateDistance(double lat1, double lng1, double lat2, double lng2) {
