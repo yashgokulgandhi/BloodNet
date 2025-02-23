@@ -1,12 +1,12 @@
 import { FaSearch } from "react-icons/fa";
-import "../components/navbar.css";
+import './navbar.css'
 import { useNavigate } from "react-router-dom"; // React Router hook for navigation
 
 export default function NavBar() {
   const navigate = useNavigate(); // Hook for navigation
 
   const handleLogin = () => {
-    navigate("/login"); // Navigate to login page on button click
+    navigate("/donor/login"); // Navigate to login page on button click
   };
 
   return (
@@ -21,22 +21,25 @@ export default function NavBar() {
 
       {/* Themed Navigation Links with underline effect */}
       <div className="hidden md:flex items-center gap-10">
-        <a href="/" className="nav-link home">
+        <a href="/donor/home" className="nav-link home">
           Home
         </a>
-        <a href="/service" className="nav-link service">
-          Service
+        <a href="/donor/service" className="nav-link service">
+          Dashboard
         </a>
-        <a href="/product" className="nav-link product">
-          Product
-        </a>
-        <a href="/contact" className="nav-link contact">
+        <a href="/donor/contact" className="nav-link contact">
           Contact
+        </a>
+        <a href="/donor/check" className="nav-link contact">
+          Check
+        </a>
+        <a href="/donor/notification" className="nav-link product">
+          Notifications
         </a>
       </div>
 
       {/* Search Bar & Login Button */}
-      <div className="flex items-center gap-3">
+      {/* <div className="flex items-center gap-3">
         <div className="relative">
           <FaSearch className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
           <input
@@ -44,10 +47,11 @@ export default function NavBar() {
             placeholder="Search"
             className="pl-10 w-[220px] bg-rose-50 border border-gray-300 rounded-full py-2 outline-none focus:ring-2 focus:ring-rose-600 transition-all"
           />
-        </div>
-        <button className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-full shadow-md hover:shadow-lg transition-all duration-300">
+        </div> */}
+        {/* <button className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-full shadow-md hover:shadow-lg transition-all duration-300">
           Search
-        </button>
+        </button> */}
+        <div>
         <button
           onClick={handleLogin}
           className="bg-rose-500 hover:bg-rose-600 text-white px-5 py-2 rounded-full shadow-md hover:shadow-lg transition-all duration-300"

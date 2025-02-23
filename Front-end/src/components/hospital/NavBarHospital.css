@@ -1,0 +1,13 @@
+
+
+.nav-link {
+    color: #059669; /* Emerald 600 */
+    text-decoration: none; /* Remove underline */
+    font-weight: 500; /* Medium font weight */
+    transition: color 0.2s ease-in-out; /* Smooth transition for hover state */
+  }
+  
+  .nav-link:hover {
+    color: #065f46; /* Emerald 800 */
+  }
+  
