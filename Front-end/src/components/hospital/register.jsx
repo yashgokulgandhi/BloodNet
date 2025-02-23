@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -8,8 +8,32 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
     phone: "",
-    address: "",
+    addresses: [], // Will store geolocation data silently
   });
+
+  // Fetch geolocation silently on component mount
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const newAddress = {
+            latitude: position.coords.latitude.toString(),
+            longitude: position.coords.longitude.toString(),
+          };
+          setFormData((prev) => ({
+            ...prev,
+            addresses: [newAddress], // Store geolocation data
+          }));
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          // Silently fail - addresses will be empty if geolocation fails
+        }
+      );
+    } else {
+      console.warn("Geolocation is not supported by your browser.");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +48,10 @@ export default function RegisterPage() {
       email: formData.email,
       password: formData.password,
       phone: formData.phone,
-      address: formData.address,
+      addresses: formData.addresses.map((addr) => ({
+        latitude: parseFloat(addr.latitude),
+        longitude: parseFloat(addr.longitude),
+      })),
     };
 
     try {
@@ -40,6 +67,7 @@ export default function RegisterPage() {
         const data = await response.json();
         alert("Hospital registered successfully!");
         console.log("Response:", data);
+        window.location.href = "/login"; // Redirect to login on success
       } else {
         const errorData = await response.json();
         alert(`Error: ${errorData.message || "Failed to register hospital."}`);
@@ -94,22 +122,6 @@ export default function RegisterPage() {
               placeholder="City Hospital"
               value={formData.fullName}
               onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-              required
-              className="w-full border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            />
-          </div>
-
-          {/* Address */}
-          <div className="space-y-2">
-            <label htmlFor="address" className="block text-sm font-medium text-gray-700">
-              Address
-            </label>
-            <input
-              id="address"
-              type="text"
-              placeholder="123, Main Street, City Name"
-              value={formData.address}
-              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
               required
               className="w-full border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
@@ -190,7 +202,7 @@ export default function RegisterPage() {
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
-            <a href="/login" className="text-emerald-600 hover:text-emerald-700 font-medium">
+            <a href="/hospital/login" className="text-emerald-600 hover:text-emerald-700 font-medium">
               Login here
             </a>
           </p>
