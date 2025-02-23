@@ -28,6 +28,9 @@ public class Donor {
     @OneToOne(mappedBy = "user")
     private Address address;
 
+//    @OneToMany(mappedBy = "Donor")
+//    private List<DonorLog> donorLogs;
+
     public Donor() {
     }
 
