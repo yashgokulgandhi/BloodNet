@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
-import "./registrationPage.css"; // Adjust path as needed
+import "./registrationPage.css"; // Adjust the path as needed
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -10,29 +10,35 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
     bloodType: "",
-    addresses: [], // Will store geolocation silently
+    addresses: {}, // Geolocation data
     phone: "",
     age: "",
     weight: "",
   });
 
-  // Get user's location when component mounts and store it silently
+  // Get user's location when component mounts
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const newAddress = {
-            latitude: position.coords.latitude.toString(),
-            longitude: position.coords.longitude.toString(),
-          };
-          setFormData(prev => ({
+          setFormData((prev) => ({
             ...prev,
-            addresses: [newAddress], // Store geolocation data silently
+            addresses: {
+              latitude: position.coords.latitude.toString(),
+              longitude: position.coords.longitude.toString(),
+            },
           }));
         },
         (error) => {
           console.error("Error getting location:", error);
-          // Silently fail - no address will be included if geolocation fails
+          // Set default location if geolocation fails
+          setFormData((prev) => ({
+            ...prev,
+            addresses: {
+              latitude: "0.0",
+              longitude: "0.0",
+            },
+          }));
         }
       );
     } else {
@@ -40,6 +46,7 @@ export default function RegisterPage() {
     }
   }, []);
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -56,15 +63,15 @@ export default function RegisterPage() {
       weight: parseInt(formData.weight),
       password: formData.password,
       phone: formData.phone,
-      addresses: formData.addresses.map(addr => ({
-        latitude: parseFloat(addr.latitude),
-        longitude: parseFloat(addr.longitude),
-      })),
+      addresses: {
+        latitude: parseFloat(formData.addresses.latitude),
+        longitude: parseFloat(formData.addresses.longitude),
+      },
       bloodType: formData.bloodType,
     };
 
     try {
-      const response = await fetch("http://localhost:8080/registeration/donor", {
+      const response = await fetch("http://localhost:8080/registration/donor", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,9 +80,8 @@ export default function RegisterPage() {
       });
 
       if (response.ok) {
-        console.log("Form submitted successfully!");
         alert("Registration successful!");
-        window.location.href = "/login";
+        window.location.href = "/donor/login";
       } else {
         const errorData = await response.json();
         console.error("Submission failed:", errorData);
@@ -107,95 +113,22 @@ export default function RegisterPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
-            <div>
-              <label htmlFor="username" className="block font-medium text-gray-700">
-                Username
-              </label>
-              <input
-                id="username"
-                type="text"
-                className="form-control"
-                placeholder="Unique username"
-                value={formData.username}
-                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="fullName" className="block font-medium text-gray-700">
-                Full Name
-              </label>
-              <input
-                id="fullName"
-                type="text"
-                className="form-control"
-                placeholder="John Doe"
-                value={formData.fullName}
-                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                className="form-control"
-                placeholder="example@example.com"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="phone" className="block font-medium text-gray-700">
-                Contact Number
-              </label>
-              <input
-                id="phone"
-                type="tel"
-                className="form-control"
-                placeholder="1234567890"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="age" className="block font-medium text-gray-700">
-                Age
-              </label>
-              <input
-                id="age"
-                type="number"
-                className="form-control"
-                placeholder="Your Age"
-                value={formData.age}
-                onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="weight" className="block font-medium text-gray-700">
-                Weight (kg)
-              </label>
-              <input
-                id="weight"
-                type="number"
-                className="form-control"
-                placeholder="Your Weight"
-                value={formData.weight}
-                onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
-                required
-              />
-            </div>
+            {["username", "fullName", "email", "phone", "age", "weight"].map((field) => (
+              <div key={field}>
+                <label htmlFor={field} className="block font-medium text-gray-700">
+                  {field.charAt(0).toUpperCase() + field.slice(1)}
+                </label>
+                <input
+                  id={field}
+                  type={field === "age" || field === "weight" ? "number" : "text"}
+                  className="form-control"
+                  placeholder={`Enter ${field}`}
+                  value={formData[field]}
+                  onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
+                  required
+                />
+              </div>
+            ))}
 
             <div>
               <label htmlFor="bloodType" className="block font-medium text-gray-700">
@@ -209,47 +142,30 @@ export default function RegisterPage() {
                 required
               >
                 <option value="">Select Blood Type</option>
-                <option value="A+">A+</option>
-                <option value="A-">A-</option>
-                <option value="B+">B+</option>
-                <option value="B-">B-</option>
-                <option value="O+">O+</option>
-                <option value="O-">O-</option>
-                <option value="AB+">AB+</option>
-                <option value="AB-">AB-</option>
+                {["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"].map((type) => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
               </select>
             </div>
           </div>
 
-          <div>
-            <label htmlFor="password" className="block font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              className="form-control"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="confirmPassword" className="block font-medium text-gray-700">
-              Confirm Password
-            </label>
-            <input
-              id="confirmPassword"
-              type="password"
-              className="form-control"
-              value={formData.confirmPassword}
-              onChange={(e) =>
-                setFormData({ ...formData, confirmPassword: e.target.value })
-              }
-              required
-            />
-          </div>
+          {["password", "confirmPassword"].map((field) => (
+            <div key={field}>
+              <label htmlFor={field} className="block font-medium text-gray-700">
+                {field === "confirmPassword" ? "Confirm Password" : "Password"}
+              </label>
+              <input
+                id={field}
+                type="password"
+                className="form-control"
+                value={formData[field]}
+                onChange={(e) =>
+                  setFormData({ ...formData, [field]: e.target.value })
+                }
+                required
+              />
+            </div>
+          ))}
 
           <button
             type="submit"
