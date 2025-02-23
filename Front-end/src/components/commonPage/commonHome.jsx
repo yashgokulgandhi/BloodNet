@@ -1,27 +1,18 @@
 // import React from "react";
 import PropTypes from "prop-types"; // Import prop-types
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./home.css"; // Custom CSS file for styling
 
-function NavBar() {
-  return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-      <div className="container">
-        <a className="navbar-brand text-primary fw-bold" href="#">
-          LifeStream Connect
-        </a>
-      </div>
-    </nav>
-  );
-}
+
 
 function ActionCard({ title, description, buttonText, iconClass, href }) {
   return (
-    <div className="card bg-light shadow-sm border-0">
+    <div className="card action-card bg-light shadow-sm border-0">
       <div className="card-body text-center">
-        <i className={`${iconClass} display-4 text-primary mb-3`}></i>
+        <i className={`${iconClass} display-4 text-gradient mb-3`}></i>
         <h5 className="card-title fw-bold">{title}</h5>
         <p className="card-text text-muted">{description}</p>
-        <a href={href} className="btn btn-primary w-100">
+        <a href={href} className="btn btn-gradient w-100">
           {buttonText}
         </a>
       </div>
@@ -40,11 +31,11 @@ ActionCard.propTypes = {
 
 export default function Home() {
   return (
-    <div className="min-vh-100 bg-primary bg-gradient text-white">
-      <NavBar />
-      <header className="text-center py-5">
-        <h1 className="display-4 fw-bold">LifeStream Connect</h1>
-        <p className="lead mx-auto" style={{ maxWidth: "600px" }}>
+    <div className="home-container">
+     
+      <header>
+        <img src="./public/BloodNet_tagline.png" alt="BloodNet Logo" className="logo" />
+        <p>
           Bridging the gap between blood donors and hospitals. Making blood donation accessible and efficient through
           our innovative platform.
         </p>
@@ -73,9 +64,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="text-center py-4 bg-light text-primary">
-        <p className="mb-0">&copy; 2025 LifeStream Connect. All rights reserved.</p>
-      </footer>
+      
     </div>
   );
 }
