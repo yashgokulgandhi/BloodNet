@@ -1,0 +1,77 @@
+/* Body Background */
+.home-container {
+    background: linear-gradient(to top, #284a80, #67aff2); /* Dark blue to light sky blue */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center-align content horizontally */
+    justify-content: flex-start; /* Add spacing from the top */
+    text-align: center;
+    color: white; /* Ensure white text is visible against gradient */
+  }
+  
+  /* Navbar */
+  .navbar {
+    background: white; /* Light navbar for contrast */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header Section */
+  header img.logo {
+    margin-top: 90px;
+    margin-left: 17px;
+    height: 100px; /* Adjust logo height */
+    width: auto; /* Maintain aspect ratio */
+    margin-bottom: 1rem; /* Add spacing below logo */
+  }
+  
+  header p {
+    max-width: 600px;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Action Card */
+  .action-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Gradient Text for Icons */
+  .text-gradient {
+    background: linear-gradient(to right, #3c0c00, #feb47b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* Buttons */
+  .btn-gradient {
+    background: linear-gradient(to right, #67aff2, #0c5090);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .btn-gradient:hover {
+    background: linear-gradient(to right, #0c5090, #67aff2);
+    box-shadow: 0 4px 10px rgba(255, 105, 135, 0.3);
+    color: white;
+  }
+  
+  /* Footer */
+  footer {
+    background: white;
+    color: #284a80; /* Match the darker shade of blue */
+  }
+  
