@@ -15,12 +15,12 @@ public class Address {
     private double latitude;
     private double longitude;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "donor_id",nullable = true)
     @JsonBackReference
     private Donor user;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "hospital_id",nullable = true)
     @JsonBackReference
     private Hospital hospital;
