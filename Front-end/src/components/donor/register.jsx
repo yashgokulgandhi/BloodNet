@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import "./registrationPage.css"; // Adjust path as needed
 
@@ -9,22 +9,36 @@ export default function RegisterPage() {
     email: "",
     password: "",
     confirmPassword: "",
-    bloodGroup: "",
-    addresses: [""],
+    bloodType: "",
+    addresses: [], // Will store geolocation silently
     phone: "",
     age: "",
     weight: "",
   });
 
-  const handleAddressChange = (index, value) => {
-    const updatedAddresses = [...formData.addresses];
-    updatedAddresses[index] = value;
-    setFormData({ ...formData, addresses: updatedAddresses });
-  };
-
-  const addAddressField = () => {
-    setFormData({ ...formData, addresses: [...formData.addresses, ""] });
-  };
+  // Get user's location when component mounts and store it silently
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const newAddress = {
+            latitude: position.coords.latitude.toString(),
+            longitude: position.coords.longitude.toString(),
+          };
+          setFormData(prev => ({
+            ...prev,
+            addresses: [newAddress], // Store geolocation data silently
+          }));
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          // Silently fail - no address will be included if geolocation fails
+        }
+      );
+    } else {
+      console.warn("Geolocation is not supported by your browser.");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,12 +52,15 @@ export default function RegisterPage() {
       username: formData.username,
       fullName: formData.fullName,
       email: formData.email,
-      age: formData.age,
-      weight: formData.weight,
+      age: parseInt(formData.age),
+      weight: parseInt(formData.weight),
       password: formData.password,
       phone: formData.phone,
-      addresses: formData.addresses,
-      bloodGroup: formData.bloodGroup, // Will send in enum format
+      addresses: formData.addresses.map(addr => ({
+        latitude: parseFloat(addr.latitude),
+        longitude: parseFloat(addr.longitude),
+      })),
+      bloodType: formData.bloodType,
     };
 
     try {
@@ -58,7 +75,7 @@ export default function RegisterPage() {
       if (response.ok) {
         console.log("Form submitted successfully!");
         alert("Registration successful!");
-        window.location.href = "/login"; // Redirect to login on success
+        window.location.href = "/login";
       } else {
         const errorData = await response.json();
         console.error("Submission failed:", errorData);
@@ -181,54 +198,27 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="bloodGroup" className="block font-medium text-gray-700">
-                Blood Group
+              <label htmlFor="bloodType" className="block font-medium text-gray-700">
+                Blood Type
               </label>
               <select
-                id="bloodGroup"
+                id="bloodType"
                 className="form-control"
-                value={formData.bloodGroup}
-                onChange={(e) => setFormData({ ...formData, bloodGroup: e.target.value })}
+                value={formData.bloodType}
+                onChange={(e) => setFormData({ ...formData, bloodType: e.target.value })}
                 required
               >
-                <option value="">Select Blood Group</option>
-                <option value="A_POSITIVE">A+</option>
-                <option value="A_NEGATIVE">A-</option>
-                <option value="B_POSITIVE">B+</option>
-                <option value="B_NEGATIVE">B-</option>
-                <option value="O_POSITIVE">O+</option>
-                <option value="O_NEGATIVE">O-</option>
-                <option value="AB_POSITIVE">AB+</option>
-                <option value="AB_NEGATIVE">AB-</option>
+                <option value="">Select Blood Type</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
               </select>
             </div>
-
-            {formData.addresses.map((address, index) => (
-              <div key={index}>
-                <label
-                  htmlFor={`address-${index}`}
-                  className="block font-medium text-gray-700"
-                >
-                  Address {index + 1}
-                </label>
-                <input
-                  id={`address-${index}`}
-                  type="text"
-                  className="form-control"
-                  placeholder="Address details"
-                  value={address}
-                  onChange={(e) => handleAddressChange(index, e.target.value)}
-                  required
-                />
-              </div>
-            ))}
-            <button
-              type="button"
-              className="w-full bg-rose-200 text-rose-700 font-medium py-2 rounded-lg hover:bg-rose-300"
-              onClick={addAddressField}
-            >
-              + Add Another Address
-            </button>
           </div>
 
           <div>

@@ -23,7 +23,7 @@ public class DonorController {
     private HospitalService hospitalService;
 
     // Donor Registration
-    @PostMapping("registeration/donor")
+    @PostMapping("registration/donor")
     public ResponseEntity<?> registerDonor(@RequestBody DonorRegistrationDTO donorDTO) {
         try {
             Donor registeredDonor = donorService.registerDonor(donorDTO);
@@ -51,7 +51,7 @@ public class DonorController {
     }
 
     // Hospital Registration
-    @PostMapping("registeration/hospital")
+    @PostMapping("registration/hospital")
     public ResponseEntity<?> registerHospital(@RequestBody HospitalRegistrationDTO hospitalDTO) {
         try {
             Hospital registeredHospital = hospitalService.registerHospital(hospitalDTO);

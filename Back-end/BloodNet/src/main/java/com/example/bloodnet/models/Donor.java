@@ -25,17 +25,17 @@ public class Donor {
     private String password;
     private String phone;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Address> address;
+    @OneToOne(mappedBy = "user")
+    private Address address;
 
     public Donor() {
     }
 
-    public Donor(Long id, String username, String fullName, String bloodType, String email, int age, int weight, String password, String phone, List<Address> address) {
+    public Donor(Long id, String username, String fullName, String bloodType, String email, int age, int weight, String password, String phone, Address address) {
         this.id = id;
         this.username = username;
         this.fullName = fullName;
-        this.bloodType = bloodType; // Updated here
+        this.bloodType = bloodType;
         this.email = email;
         this.age = age;
         this.weight = weight;
@@ -69,11 +69,11 @@ public class Donor {
     }
 
     public String getBloodType() {
-        return bloodType; // Updated here
+        return bloodType;
     }
 
     public void setBloodType(String bloodType) {
-        this.bloodType = bloodType; // Updated here
+        this.bloodType = bloodType;
     }
 
     public String getEmail() {
@@ -116,11 +116,16 @@ public class Donor {
         this.phone = phone;
     }
 
-    public List<Address> getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(List<Address> address) {
+    public void setAddress(Address address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return username;
     }
 }
