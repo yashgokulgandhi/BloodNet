@@ -1,32 +1,45 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HomePage from "./components/Home";
-import ServicePage from "./components/service/ServicePage";
-import ProductPage from "./components/product/Productpage";
-import ContactPage from "./components/contact/contactPage";
-import LoginPage from "./components/login";
-import RegisterPage from "./components/register";
-import WelcomePage from "./components/welcome";
+import HomePage from "./components/donor/Home";
+import ServicePage from "./components/donor/service/ServicePage";
+import ProductPage from "./components/donor/product/Productpage";
+import ContactPage from "./components/donor/contact/contactPage";
+import LoginPage from "./components/donor/login";
+import RegisterPage from "./components/donor/register";
+import WelcomePage from "./components/donor/welcome";
 import HomeofHospital from './components/hospital/Home/Home';
 import LoginHospital from './components/hospital/login';
 import RegisterHospital from './components/hospital/register';
 import Layout from "./Layout";
+import CommonPage from "./components/commonPage/commonHome";
+import CheckEligibility from "./components/donor/check/check";
+import Notification from "./components/donor/Notification/Notification";
+import BloodRequestPage from "./components/hospital/bloodRequest/bloodRequest";
+import Contact from "./components/hospital/contact/contact";
+import LayoutHospital from "./LayoutHospital";
 
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<CommonPage/>}/>
         <Route element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/service" element={<ServicePage />} />
-          <Route path="/product" element={<ProductPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/welcome" element={<WelcomePage />} />
+          <Route path="/donor/home" element={<HomePage />} />
+          <Route path="/donor/service" element={<ServicePage />} />
+          <Route path="/donor/product" element={<ProductPage />} />
+          <Route path="/donor/contact" element={<ContactPage />} />
+          <Route path="/donor/login" element={<LoginPage />} />
+          <Route path="/donor/register" element={<RegisterPage />} />
+          <Route path="/donor/welcome" element={<WelcomePage />} />
+          <Route path="/donor/check" element={<CheckEligibility/>}/>
+          <Route path="/donor/notification" element={<Notification/>}/>
         </Route>
-        <Route path="/hospital/home" element={<HomeofHospital />} />
-        <Route path="/hospital/login" element={<LoginHospital />} />
-        <Route path="/hospital/register" element={<RegisterHospital />} />
+        <Route element={<LayoutHospital/>}>
+          <Route path="/hospital/home" element={<HomeofHospital />} />
+          <Route path="/hospital/login" element={<LoginHospital />} />
+          <Route path="/hospital/register" element={<RegisterHospital />} />
+          <Route path="/hospital/bloodrequest" element={<BloodRequestPage/>}/> 
+          <Route path="/hospital/contact" element={<Contact/>}/>  
+        </Route>       
       </Routes>
     </Router>
   );

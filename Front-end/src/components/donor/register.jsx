@@ -272,7 +272,7 @@ export default function RegisterPage() {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Already registered?{" "}
-            <a href="/login" className="text-rose-500 hover:underline">
+            <a href="/donor/login" className="text-rose-500 hover:underline">
               Login here
             </a>
           </p>

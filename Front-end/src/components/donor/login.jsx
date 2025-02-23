@@ -82,7 +82,7 @@ export default function LoginPage() {
           <div className="text-center">
             <p className="text-muted">
               Don&apos;t have an account?{" "}
-              <a href="/register" className="text-danger fw-medium">
+              <a href="/donor/register" className="text-danger fw-medium">
                 Register here
               </a>
             </p>
